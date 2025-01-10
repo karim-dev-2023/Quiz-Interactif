@@ -26,3 +26,5 @@ export const markCorrectAnswer = (container, correctIndex) => {
     buttons[correctIndex].classList.add("correct");
   }
 };
+
+

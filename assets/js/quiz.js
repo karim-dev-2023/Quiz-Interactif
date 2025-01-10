@@ -23,12 +23,14 @@ const questions = [
     answers: ["Marseille", "Paris", "Lyon", "Bordeaux"],
     correct: 1,
     timeLimit: 10,
+    answerUser: null,
   },
   {
     text: "Combien font 2 + 3 ?",
     answers: ["3", "4", "5", "1"],
     correct: 2,
     timeLimit: 5,
+    answerUser: null,
   },
 ];
 
@@ -56,6 +58,9 @@ const timeLeftSpan = getElement("#time-left");
 
 const currentQuestionIndexSpan = getElement("#current-question-index");
 const totalQuestionsSpan = getElement("#total-questions");
+
+const recapTable = getElement("#recapAfterQuiz");
+const recapBodyTable = getElement("#bodyRecapAfterQuiz");
 
 // Init
 startBtn.addEventListener("click", startQuiz);
@@ -112,6 +117,7 @@ function selectAnswer(index, btn) {
   } else {
     btn.classList.add("wrong");
   }
+  q.answerUser = index;
 
   markCorrectAnswer(answersDiv, q.correct);
   lockAnswers(answersDiv);
@@ -137,6 +143,7 @@ function endQuiz() {
     bestScore = score;
     saveToLocalStorage("bestScore", bestScore);
   }
+  showRecapAfterQuiz();
   setText(bestScoreEnd, bestScore);
 }
 
@@ -144,5 +151,39 @@ function restartQuiz() {
   hideElement(resultScreen);
   showElement(introScreen);
 
+  if (recapBodyTable) {
+    recapBodyTable.innerHTML = "";
+
+    recapTable.style.display = "none";
+  }
+
   setText(bestScoreValue, bestScore);
+}
+
+function showRecapAfterQuiz(question) {
+
+  questions.forEach((question) => {
+    const newTr = document.createElement("tr");
+
+    const questionTd = document.createElement("td");
+    questionTd.textContent = question.text;
+
+    const userAnswerTd = document.createElement("td");
+    if (question.answerUser !== null) {
+      userAnswerTd.textContent = question.answers[question.answerUser];
+    } else {
+      userAnswerTd.textContent = "Pas de réponse";
+    }
+
+    const correctAnswerTd = document.createElement("td");
+    correctAnswerTd.textContent = question.answers[question.correct];
+
+    newTr.appendChild(questionTd);
+    newTr.appendChild(userAnswerTd);
+    newTr.appendChild(correctAnswerTd);
+
+    recapBodyTable.appendChild(newTr);
+  });
+
+  recapTable.style.removeProperty("display");
 }

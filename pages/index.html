@@ -18,7 +18,8 @@
 
     <div id="question-screen" style="display: none">
       <div id="progress">
-        Question <span id="current-question-index"></span> /
+        Question 
+        <span id="current-question-index"></span> 
         <span id="total-questions"></span>
       </div>
       <p id="question-text"></p>
@@ -33,6 +34,19 @@
       <p>Meilleur score : <span id="best-score-end">0</span></p>
       <button id="restart-btn">Recommencer</button>
     </div>
+
+    <table id="recapAfterQuiz" style="display: none"  class="tableRecap">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Réponse Utilisateur</th>
+          <th>Bonne Réponse</th>
+        </tr>
+      </thead>
+      <tbody id="bodyRecapAfterQuiz">
+        
+      </tbody>
+    </table>
 
     <script type="module" src="../assets/js/quiz.js"></script>
   </body>

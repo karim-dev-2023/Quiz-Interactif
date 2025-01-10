@@ -45,6 +45,9 @@ const currentQuestionIndexSpan = document.getElementById(
 );
 const totalQuestionsSpan = document.getElementById("total-questions");
 
+const recapTable = document.getElementById("recapAfterQuiz");
+const recapBodyTable = document.getElementById("bodyRecapAfterQuiz");
+
 // On init
 window.addEventListener("DOMContentLoaded", () => {
   startBtn.addEventListener("click", startQuiz);
