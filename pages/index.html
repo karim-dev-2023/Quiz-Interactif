@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quiz Dynamique</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+  <body>
+    <h1>Quiz Dynamique</h1>
+
+    <div id="intro-screen">
+      <p class="notice">
+        Testez vos connaissances en quelques questions chronométrées !
+      </p>
+      <p>Meilleur score : <span id="best-score-value">0</span></p>
+      <button id="start-btn">Commencer le quiz</button>
+    </div>
+
+    <div id="question-screen" style="display: none">
+      <div id="progress">
+        Question <span id="current-question-index"></span> /
+        <span id="total-questions"></span>
+      </div>
+      <p id="question-text"></p>
+      <div id="answers"></div>
+      <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
+      <button id="next-btn" class="hidden">Question suivante</button>
+    </div>
+
+    <div id="result-screen" style="display: none">
+      <h2>Résultat final</h2>
+      <p id="score-text"></p>
+      <p>Meilleur score : <span id="best-score-end">0</span></p>
+      <button id="restart-btn">Recommencer</button>
+    </div>
+
+    <script type="module" src="../assets/js/quiz.js"></script>
+  </body>
+</html>
