@@ -1,39 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
+<head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz Dynamique</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
-  </head>
-  <body>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
     <h1>Quiz Dynamique</h1>
 
+    <!-- Bouton pour le mode sombre -->
+    <button id="dark-mode-toggle" class="dark-mode-btn">
+      <span id="dark-mode-icon">
+        <!-- Icône par défaut : Lune -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="#284d92" fill-opacity="0">
+            <path d="M15.22 6.03l2.53 -1.94l-3.19 -0.09l-1.06 -3l-1.06 3l-3.19 0.09l2.53 1.94l-0.91 3.06l2.63 -1.81l2.63 1.81l-0.91 -3.06Z">
+              <animate fill="freeze" attributeName="fill-opacity" begin="0.7s" dur="0.4s" values="0;1"/>
+            </path>
+          </g>
+          <path fill="#284d92" fill-opacity="0" stroke="#284d92" stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 6c0 6.08 4.92 11 11 11c0.53 0 1.05 -0.04 1.56 -0.11c-1.61 2.47 -4.39 4.11 -7.56 4.11c-4.97 0 -9 -4.03 -9 -9c0 -3.17 1.64 -5.95 4.11 -7.56c-0.07 0.51 -0.11 1.03 -0.11 1.56Z">
+            <animate fill="freeze" attributeName="fill-opacity" begin="1.5s" dur="0.5s" values="0;1"/>
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="56;0"/>
+          </path>
+        </svg>
+      </span>
+    </button>
+
+    <!-- Écran d'introduction -->
     <div id="intro-screen">
-      <p class="notice">
-        Testez vos connaissances en quelques questions chronométrées !
-      </p>
-      <p>Meilleur score : <span id="best-score-value">0</span></p>
+        <p class="notice">
+            Testez vos connaissances en quelques questions chronométrées !
+        </p>
+        <p>Meilleur score : <span id="best-score-value">0</span></p>
+        <div id="theme-selection">
+        <label for="theme-select">Choisissez un thème :</label>
+        <select id="theme-select">
+          <option value="general">Culture générale</option>
+          <option value="maths">Mathématiques</option>
+          <option value="webdev">Développement web</option>
+        </select>
+      </div>
       <button id="start-btn">Commencer le quiz</button>
     </div>
 
-    <div id="question-screen" style="display: none">
-      <div id="progress">
-        Question <span id="current-question-index"></span> /
-        <span id="total-questions"></span>
-      </div>
-      <p id="question-text"></p>
-      <div id="answers"></div>
-      <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
-      <button id="next-btn" class="hidden">Question suivante</button>
+    <!-- Écran des questions -->
+    <div id="question-screen" style="display: none;">
+        <div id="progress">
+            Question 
+        <span id="current-question-index"></span> / 
+            <span id="total-questions"></span>
+        </div>
+      <img id="question-image" src="" alt="Illustration de la question" style="max-width: 300px; display: none;" />
+      <div id="difficulty-indicator"></div>
+        <p id="question-text"></p>
+        <div id="answers"></div>
+        <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
+        <button id="next-btn" class="hidden">Question suivante</button>
     </div>
 
-    <div id="result-screen" style="display: none">
-      <h2>Résultat final</h2>
-      <p id="score-text"></p>
-      <p>Meilleur score : <span id="best-score-end">0</span></p>
-      <button id="restart-btn">Recommencer</button>
+    <!-- Écran des résultats -->
+    <div id="result-screen" style="display: none;">
+        <h2>Résultat final</h2>
+      <div id="encouragement-container">
+        <h3 id="encouragement-title"></h3>
+        <p id="encouragement"></p>
+      </div>
+        <p id="score-text"></p>
+        <p>Meilleur score : <span id="best-score-end">0</span></p>
+      <div id="detailed-stats">
+        <h3>Statistiques détaillées</h3>
+        <p>Temps moyen par question : <span id="average-time"></span> secondes</p>
+        <div id="question-stats"></div>
+      </div>
+        <button id="restart-btn">Recommencer</button>
+    </div>
+
+    <!-- Tableau récapitulatif -->
+    <table id="recapAfterQuiz" style="display: none;" class="tableRecap">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Réponse Utilisateur</th>
+          <th>Bonne Réponse</th>
+        </tr>
+      </thead>
+      <tbody id="bodyRecapAfterQuiz"></tbody>
+    </table>
+
+    <!-- Section pour afficher les badges débloqués -->
+    <div id="badges-screen" style="display:none">
+        <h2>Badges Débloqués</h2>
+        <ul id="badges-list"></ul>
     </div>
 
     <script type="module" src="../assets/js/quiz.js"></script>
-  </body>
+</body>
 </html>
