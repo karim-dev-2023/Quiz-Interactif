@@ -24,6 +24,23 @@
       <p id="question-text"></p>
       <div id="answers"></div>
       <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
+      <div id="global-timer-container">
+        <div id="global-timer">
+          Temps global restant : <span id="global-time-left">0</span>s
+        </div>
+        <div id="timer-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+            <g fill="none" stroke-width="4">
+              <circle cx="24" cy="28" r="16" fill="#2f88ff" stroke="#000"/>
+              <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M28 4L20 4"/>
+              <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M24 4V12"/>
+              <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M35 16L38 13"/>
+              <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M24 28V22"/>
+              <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M24 28H18"/>
+            </g>
+          </svg>
+        </div>
+      </div>
       <button id="next-btn" class="hidden">Question suivante</button>
     </div>
 
@@ -31,6 +48,19 @@
       <h2>Résultat final</h2>
       <p id="score-text"></p>
       <p>Meilleur score : <span id="best-score-end">0</span></p>
+      <div id="time-used-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+          <g fill="none" stroke-width="4">
+            <circle cx="24" cy="28" r="16" fill="#2f88ff" stroke="#000"/>
+            <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M28 4L20 4"/>
+            <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M24 4V12"/>
+            <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M35 16L38 13"/>
+            <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M24 28V22"/>
+            <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" d="M24 28H18"/>
+          </g>
+        </svg>
+        <span>Temps total utilisé : <span id="time-used">0</span>s</span>
+      </div>
       <button id="restart-btn">Recommencer</button>
     </div>
 

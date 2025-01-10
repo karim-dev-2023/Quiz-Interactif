@@ -36,6 +36,9 @@ let currentQuestionIndex = 0;
 let score = 0;
 let bestScore = loadFromLocalStorage("bestScore", 0);
 let timerId = null;
+let globalTimerId = null; 
+let globalTimeLeft = 60; 
+
 
 // DOM Elements
 const introScreen = getElement("#intro-screen");
@@ -70,14 +73,29 @@ function startQuiz() {
 
   currentQuestionIndex = 0;
   score = 0;
+  globalTimeLeft = 60; // Réinitialiser le temps global
 
   // Mélanger les questions
   shuffleArray(questions);
 
   setText(totalQuestionsSpan, questions.length);
 
+  // Démarrer le compte à rebours global
+  setText(getElement("#global-time-left"), globalTimeLeft);
+  globalTimerId = startTimer(
+    globalTimeLeft,
+    (timeLeft) => {
+      globalTimeLeft = timeLeft; 
+      setText(getElement("#global-time-left"), timeLeft);
+    },
+    () => {
+      endQuiz();
+    }
+  );
+
   showQuestion();
 }
+
 
 function showQuestion() {
   clearInterval(timerId);
@@ -141,11 +159,22 @@ function endQuiz() {
     saveToLocalStorage("bestScore", bestScore);
   }
   setText(bestScoreEnd, bestScore);
+
+  const timeUsed = 60 - globalTimeLeft; 
+  setText(getElement("#time-used"), timeUsed);
+
+  clearInterval(globalTimerId);
 }
+
 
 function restartQuiz() {
   hideElement(resultScreen);
   showElement(introScreen);
 
   setText(bestScoreValue, bestScore);
+
+  // Arrêter le chronomètre global
+  clearInterval(globalTimerId);
 }
+
+
