@@ -166,6 +166,7 @@ const questionsByTheme = {
     }
   ]
 };
+let isFlashcardMode = false; 
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -197,6 +198,13 @@ const timeLeftSpan = getElement("#time-left");
 
 const currentQuestionIndexSpan = getElement("#current-question-index");
 const totalQuestionsSpan = getElement("#total-questions");
+const flashcardBtn = getElement("#flashcard-btn"); // Bouton Flashcard
+
+flashcardBtn.addEventListener("click", () => {
+  isFlashcardMode = true; // Active le mode Flashcard
+  startFlashcard();
+});
+
 
 // Bouton et icône pour le mode sombre
 const darkModeToggle = getElement("#dark-mode-toggle");
@@ -236,6 +244,21 @@ function startQuiz() {
 
   showQuestion();
 }
+function startFlashcard() {
+  hideElement(introScreen);
+  showElement(questionScreen);
+  hideElement(getElement("#timer-div"));
+
+  hideElement(timeLeftSpan); 
+
+  currentQuestionIndex = 0;
+  questions = questionsByTheme[currentTheme];
+
+  setText(totalQuestionsSpan, questions.length);
+  showFlashcard();
+}
+
+
 
 // Fonction pour afficher une question
 function showQuestion() {
@@ -274,6 +297,62 @@ function showQuestion() {
     }
   );
 }
+function showFlashcard() {
+  const q = questions[currentQuestionIndex];
+
+  // Affiche la question
+  setText(questionText, q.text);
+
+  // Réinitialise les réponses
+  answersDiv.innerHTML = "";
+
+  // Ajoute les options de réponse comme dans le mode Quiz
+  q.answers.forEach((answer, index) => {
+    const btn = createAnswerButton(answer, () => selectFlashcardAnswer(index, btn, q.correct));
+    answersDiv.appendChild(btn);
+  });
+
+  // Affiche le bouton suivant
+  nextBtn.classList.remove("hidden");
+}
+
+function selectFlashcardAnswer(index, btn, correctIndex) {
+  const answers = answersDiv.querySelectorAll("button");
+
+  // Désactive tous les boutons après un clic
+  answers.forEach((button) => button.disabled = true);
+
+  // Vérifie si la réponse est correcte
+  if (index === correctIndex) {
+    btn.classList.add("correct");
+  } else {
+    btn.classList.add("wrong");
+  }
+
+  // Met en évidence la bonne réponse
+  answers[correctIndex].classList.add("correct");
+}
+
+
+function revealFlashcardAnswer(question) {
+  const correctAnswerIndex = question.correct;
+
+  // Ajoute un indicateur visuel pour la bonne réponse
+  const answers = answersDiv.querySelectorAll(".flashcard-answer");
+  answers.forEach((answer, index) => {
+    if (index === correctAnswerIndex) {
+      answer.classList.add("correct"); // Ajoute un style pour la bonne réponse
+    }
+  });
+
+  // Supprime le bouton "Voir la réponse"
+  const revealBtn = answersDiv.querySelector("button");
+  if (revealBtn) {
+    revealBtn.remove();
+  }
+}
+
+
 
 function updateDifficultyIndicator(difficulty) {
   difficultyIndicator.textContent = `Difficulté : ${difficulty}`;
@@ -315,14 +394,34 @@ function selectAnswer(index, btn) {
 function nextQuestion() {
   currentQuestionIndex++;
   if (currentQuestionIndex < questions.length) {
-    showQuestion();
+    if (isFlashcardMode) {
+      showFlashcard();
+    } else {
+      showQuestion();
+    }
   } else {
-    endQuiz();
+    if (isFlashcardMode) {
+      hideElement(questionScreen);
+      showElement(introScreen);
+      isFlashcardMode = false; // Désactive le mode Flashcard
+    } else {
+      endQuiz();
+    }
   }
 }
 
+
 // Fonction pour terminer le quiz
 function endQuiz() {
+  if (isFlashcardMode) {
+    // Retourne à l'accueil en mode Flashcard
+    hideElement(questionScreen);
+    showElement(introScreen);
+    isFlashcardMode = false; // Réinitialise le mode
+    return;
+  }
+
+  // Logique normale du quiz (pour le mode classique)
   hideElement(questionScreen);
   showElement(resultScreen);
 
@@ -335,19 +434,8 @@ function endQuiz() {
 
   showRecapAfterQuiz();
   setText(bestScoreEnd, bestScore);
-
-  const encouragement = getEncouragement(score, questions.length);
-  
-  // Modification ici
-  const emojiContainer = getElement("#encouragement-container");
-  emojiContainer.innerHTML = `
-    <h3 id="encouragement-title">${encouragement.title}</h3>
-    <p id="encouragement">${encouragement.message}</p>
-    <div class="emoji">${encouragement.emoji}</div>
-  `;
-
-  displayDetailedStats();
 }
+
 
 function displayDetailedStats() {
   const averageTime = totalTime / questions.length;

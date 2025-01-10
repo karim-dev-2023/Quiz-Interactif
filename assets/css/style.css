@@ -281,3 +281,11 @@ body.dark-mode #dark-mode-icon svg {
 .question-stat p {
   margin: 5px 0;
 }
+
+#flashcard-btn {
+  background-color: #d9534f; 
+}
+
+#flashcard-btn:hover {
+  background-color: #c9302c; 
+}
