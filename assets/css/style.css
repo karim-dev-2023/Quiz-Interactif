@@ -1,21 +1,26 @@
+/* Corps */
 body {
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 20px;
   text-align: center;
   background: #fafafa;
   color: #333;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Titre principal */
 h1 {
   margin-bottom: 25px;
 }
 
+/* Message de bienvenue */
 .notice {
   font-style: italic;
   margin-bottom: 15px;
   color: #555;
 }
 
+/* Boutons généraux */
 button {
   margin: 10px auto;
   padding: 10px 20px;
@@ -31,10 +36,12 @@ button:hover {
   background-color: #1565c0;
 }
 
+/* Classe pour cacher un élément */
 .hidden {
   display: none;
 }
 
+/* Conteneurs principaux */
 #intro-screen,
 #question-screen,
 #result-screen {
@@ -46,6 +53,7 @@ button:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Boutons des réponses */
 #answers button {
   display: block;
   width: 60%;
@@ -60,32 +68,97 @@ button:hover {
   background-color: #e0e0e0;
 }
 
+/* Bouton correct */
 .correct {
-  background-color: #c8e6c9 !important; /* vert clair */
+  background-color: #c8e6c9 !important; /* Vert clair */
 }
 
+/* Bouton incorrect */
 .wrong {
-  background-color: #ffcdd2 !important; /* rouge clair */
+  background-color: #ffcdd2 !important; /* Rouge clair */
 }
 
+/* Timer */
 #timer-div {
   margin-top: 10px;
   font-weight: bold;
-  color: #d32f2f; /* rouge foncé */
+  color: #d32f2f; /* Rouge foncé */
 }
 
+/* Barre de progression */
 #progress {
   font-weight: bold;
   margin-bottom: 10px;
   color: #455a64;
 }
 
+/* Écran de résultats */
 #result-screen h2 {
   margin-bottom: 20px;
-  color: #2e7d32; /* vert foncé */
+  color: #2e7d32; /* Vert foncé */
 }
 
 #score-text {
   font-size: 1.2em;
   margin-bottom: 10px;
+}
+
+/* Bouton pour le mode sombre */
+.dark-mode-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #f5f5f5; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.dark-mode-btn:hover {
+  transform: scale(1.1); 
+}
+
+body:not(.dark-mode) .dark-mode-btn:hover {
+  background-color: #333;
+}
+
+body.dark-mode .dark-mode-btn:hover {
+  background-color: #fff; 
+}
+
+body.dark-mode .dark-mode-btn {
+  background-color: #333; 
+}
+
+/* Mode sombre : apparence des éléments */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode #intro-screen,
+body.dark-mode #question-screen,
+body.dark-mode #result-screen {
+  background-color: #1e1e1e; 
+  color: #e0e0e0; 
+}
+
+body.dark-mode #dark-mode-icon svg {
+  fill: #ffda00; 
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.fade svg {
+  opacity: 1;
 }
