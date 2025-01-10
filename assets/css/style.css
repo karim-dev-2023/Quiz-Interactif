@@ -89,3 +89,17 @@ button:hover {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
+
+.tableRecap{
+  margin: auto;
+  width: 75%;
+}
+
+.tableRecap thead tr th,td{
+  border: 1px solid black;
+  padding: 10px;
+}
+/* .tableRecap tbody tr td{
+  border: 1px solid black;
+  padding: 10px;
+} */
