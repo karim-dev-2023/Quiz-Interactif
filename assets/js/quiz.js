@@ -113,6 +113,8 @@ function selectAnswer(index, btn) {
     btn.classList.add("wrong");
   }
 
+  
+
   markCorrectAnswer(answersDiv, q.correct);
   lockAnswers(answersDiv);
   nextBtn.classList.remove("hidden");
