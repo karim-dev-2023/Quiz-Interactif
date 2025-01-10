@@ -13,7 +13,7 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
   startTimer,
-  shuffleArray,
+  shuffleArray, // Import de la fonction shuffleArray
 } from "./utils.js";
 
 console.log("Quiz JS loaded...");
@@ -25,42 +25,42 @@ const questionsByTheme = {
       answers: ["Marseille", "Paris", "Lyon", "Bordeaux"],
       correct: 1,
       timeLimit: 10,
-      answerUser: null,
-    },
-    {
-      text: "Qui a peint la Joconde ?",
-      answers: ["Van Gogh", "Picasso", "Léonard de Vinci", "Monet"],
-      correct: 2,
-      timeLimit: 10,
-      answerUser: null,
+      difficulty: "facile"
     },
     {
       text: "Quel est le plus grand océan du monde ?",
       answers: ["Atlantique", "Indien", "Arctique", "Pacifique"],
       correct: 3,
       timeLimit: 10,
-      answerUser: null,
+      difficulty: "facile"
+    },
+    {
+      text: "Qui a peint la Joconde ?",
+      answers: ["Van Gogh", "Picasso", "Léonard de Vinci", "Monet"],
+      correct: 2,
+      timeLimit: 12,
+      difficulty: "moyen"
     },
     {
       text: "En quelle année la Première Guerre mondiale a-t-elle commencé ?",
       answers: ["1914", "1912", "1916", "1918"],
       correct: 0,
-      timeLimit: 10,
-      answerUser: null,
+      timeLimit: 12,
+      difficulty: "moyen"
     },
     {
       text: "Quel est l'élément chimique dont le symbole est 'Au' ?",
       answers: ["Argent", "Aluminium", "Or", "Cuivre"],
       correct: 2,
-      timeLimit: 10,
-      answerUser: null,
+      timeLimit: 15,
+      difficulty: "difficile"
     },
     {
       text: "Qui a écrit 'Le Petit Prince' ?",
       answers: ["Victor Hugo", "Antoine de Saint-Exupéry", "Émile Zola", "Albert Camus"],
       correct: 1,
-      timeLimit: 10,
-      answerUser: null,
+      timeLimit: 15,
+      difficulty: "difficile"
     }
   ],
   maths: [
@@ -69,42 +69,42 @@ const questionsByTheme = {
       answers: ["3", "4", "5", "1"],
       correct: 2,
       timeLimit: 5,
-      answerUser: null,
+      difficulty: "facile"
     },
     {
       text: "Quelle est la racine carrée de 16 ?",
       answers: ["2", "4", "8", "16"],
       correct: 1,
       timeLimit: 8,
-      answerUser: null,
+      difficulty: "facile"
     },
     {
       text: "Combien font 7 × 8 ?",
       answers: ["54", "55", "56", "58"],
       correct: 2,
-      timeLimit: 7,
-      answerUser: null,
+      timeLimit: 10,
+      difficulty: "moyen"
     },
     {
       text: "Quel est le résultat de 15 ÷ 3 ?",
       answers: ["3", "4", "5", "6"],
       correct: 2,
-      timeLimit: 6,
-      answerUser: null,
+      timeLimit: 10,
+      difficulty: "moyen"
     },
     {
       text: "Quel est le carré de 9 ?",
       answers: ["18", "27", "36", "81"],
       correct: 3,
-      timeLimit: 8,
-      answerUser: null,
+      timeLimit: 12,
+      difficulty: "difficile"
     },
     {
-      text: "Combien font 12 - 5 ?",
-      answers: ["5", "6", "7", "8"],
+      text: "Si x² = 64, quelle est la valeur de x ?",
+      answers: ["6", "8", "±8", "16"],
       correct: 2,
-      timeLimit: 5,
-      answerUser: null,
+      timeLimit: 15,
+      difficulty: "difficile"
     }
   ],
   webdev: [
@@ -117,13 +117,15 @@ const questionsByTheme = {
         "Hyper Transfer Markup Language"
       ],
       correct: 0,
-      timeLimit: 15
+      timeLimit: 10,
+      difficulty: "facile"
     },
     {
       text: "Quel langage est utilisé pour styliser les pages web ?",
       answers: ["Java", "Python", "CSS", "PHP"],
       correct: 2,
-      timeLimit: 10
+      timeLimit: 10,
+      difficulty: "facile"
     },
     {
       text: "Qu'est-ce que JavaScript permet de faire principalement ?",
@@ -134,7 +136,8 @@ const questionsByTheme = {
         "Gérer les serveurs"
       ],
       correct: 2,
-      timeLimit: 12
+      timeLimit: 12,
+      difficulty: "moyen"
     },
     {
       text: "Que signifie l'acronyme DOM ?",
@@ -145,19 +148,22 @@ const questionsByTheme = {
         "Dynamic Object Method"
       ],
       correct: 0,
-      timeLimit: 10
+      timeLimit: 12,
+      difficulty: "moyen"
     },
     {
       text: "Quel framework JavaScript est développé par Facebook ?",
       answers: ["Angular", "Vue.js", "React", "Svelte"],
       correct: 2,
-      timeLimit: 12
+      timeLimit: 15,
+      difficulty: "difficile"
     },
     {
-      text: "Quelle balise HTML5 est utilisée pour définir une section de contenu ?",
-      answers: ["<content>", "<section>", "<div>", "<article>"],
+      text: "Quelle méthode HTTP est généralement utilisée pour envoyer des données à un serveur ?",
+      answers: ["GET", "POST", "PUT", "DELETE"],
       correct: 1,
-      timeLimit: 10
+      timeLimit: 15,
+      difficulty: "difficile"
     }
   ]
 };
@@ -197,11 +203,16 @@ const darkModeIcon = getElement("#dark-mode-icon");
 const recapTable = getElement("#recapAfterQuiz");
 const recapBodyTable = getElement("#bodyRecapAfterQuiz");
 
+const difficultyIndicator = getElement("#difficulty-indicator");
+
 // Init
 startBtn.addEventListener("click", startQuiz);
 nextBtn.addEventListener("click", nextQuestion);
 restartBtn.addEventListener("click", restartQuiz);
 darkModeToggle.addEventListener("click", toggleDarkMode);
+themeSelect.addEventListener("change", (e) => {
+  currentTheme = e.target.value;
+});
 
 setText(bestScoreValue, bestScore);
 
@@ -227,6 +238,9 @@ function showQuestion() {
   setText(questionText, q.text);
   setText(currentQuestionIndexSpan, currentQuestionIndex + 1);
 
+  // Mise à jour de l'indicateur de difficulté pour chaque question
+  updateDifficultyIndicator(q.difficulty);
+
   answersDiv.innerHTML = "";
   q.answers.forEach((answer, index) => {
     const btn = createAnswerButton(answer, () => selectAnswer(index, btn));
@@ -244,6 +258,14 @@ function showQuestion() {
       nextBtn.classList.remove("hidden");
     }
   );
+}
+
+function updateDifficultyIndicator(difficulty) {
+  difficultyIndicator.textContent = `Difficulté : ${difficulty}`;
+  
+  // Ajout de classes pour le style
+  difficultyIndicator.className = ""; // Réinitialise les classes
+  difficultyIndicator.classList.add("difficulty", difficulty.toLowerCase());
 }
 
 // Fonction pour sélectionner une réponse
