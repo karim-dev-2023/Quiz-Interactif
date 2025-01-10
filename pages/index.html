@@ -13,6 +13,14 @@
         Testez vos connaissances en quelques questions chronométrées !
       </p>
       <p>Meilleur score : <span id="best-score-value">0</span></p>
+      <div id="theme-selection">
+        <label for="theme-select">Choisissez un thème :</label>
+        <select id="theme-select">
+          <option value="general">Culture générale</option>
+          <option value="maths">Mathématiques</option>
+          <option value="webdev">Développement web</option>
+        </select>
+      </div>
       <button id="start-btn">Commencer le quiz</button>
     </div>
 
@@ -21,6 +29,7 @@
         Question <span id="current-question-index"></span> /
         <span id="total-questions"></span>
       </div>
+      <div id="difficulty-indicator"></div>
       <p id="question-text"></p>
       <div id="answers"></div>
       <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
@@ -29,8 +38,17 @@
 
     <div id="result-screen" style="display: none">
       <h2>Résultat final</h2>
+      <div id="encouragement-container">
+        <h3 id="encouragement-title"></h3>
+        <p id="encouragement"></p>
+      </div>
       <p id="score-text"></p>
       <p>Meilleur score : <span id="best-score-end">0</span></p>
+      <div id="detailed-stats">
+        <h3>Statistiques détaillées</h3>
+        <p>Temps moyen par question : <span id="average-time"></span> secondes</p>
+        <div id="question-stats"></div>
+      </div>
       <button id="restart-btn">Recommencer</button>
     </div>
 
