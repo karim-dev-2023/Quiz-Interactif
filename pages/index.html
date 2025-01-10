@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz Dynamique</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -27,6 +28,7 @@
       </span>
     </button>
 
+    <!-- Écran d'introduction -->
     <div id="intro-screen">
         <p class="notice">
             Testez vos connaissances en quelques questions chronométrées !
@@ -43,12 +45,14 @@
       <button id="start-btn">Commencer le quiz</button>
     </div>
 
-    <div id="question-screen" style="display: none">
+    <!-- Écran des questions -->
+    <div id="question-screen" style="display: none;">
         <div id="progress">
             Question 
-        <span id="current-question-index"></span> 
+        <span id="current-question-index"></span> / 
             <span id="total-questions"></span>
         </div>
+      <img id="question-image" src="" alt="Illustration de la question" style="max-width: 300px; display: none;" />
       <div id="difficulty-indicator"></div>
         <p id="question-text"></p>
         <div id="answers"></div>
@@ -56,7 +60,8 @@
         <button id="next-btn" class="hidden">Question suivante</button>
     </div>
 
-    <div id="result-screen" style="display: none">
+    <!-- Écran des résultats -->
+    <div id="result-screen" style="display: none;">
         <h2>Résultat final</h2>
       <div id="encouragement-container">
         <h3 id="encouragement-title"></h3>
@@ -72,7 +77,8 @@
         <button id="restart-btn">Recommencer</button>
     </div>
 
-    <table id="recapAfterQuiz" style="display: none"  class="tableRecap">
+    <!-- Tableau récapitulatif -->
+    <table id="recapAfterQuiz" style="display: none;" class="tableRecap">
       <thead>
         <tr>
           <th>Question</th>
@@ -80,9 +86,7 @@
           <th>Bonne Réponse</th>
         </tr>
       </thead>
-      <tbody id="bodyRecapAfterQuiz">
-        
-      </tbody>
+      <tbody id="bodyRecapAfterQuiz"></tbody>
     </table>
 
     <!-- Section pour afficher les badges débloqués -->

@@ -495,3 +495,10 @@ body.dark-mode #dark-mode-icon svg {
 .question-stat p {
   margin: 5px 0;
 }
+
+#question-image {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Permet de gérer le centrage */
+  margin: 20px auto; /* Centre horizontalement */
+}

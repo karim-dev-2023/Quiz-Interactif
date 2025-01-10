@@ -72,6 +72,14 @@ const questionsByTheme = {
       difficulty: "facile"
     },
     {
+      text: "Qu'est-ce que c'est ?",
+      image: "/assets/images/2-22716_mathematics-clipart-calculus-math-pi-symbol-png-download.png", 
+      answers: ["Symbole infini", "Le signe Pi", "Alpha", "Oméga"],
+      correct: 1,
+      timeLimit: 10,
+      answerUser: null,
+    },
+    {
       text: "Quelle est la racine carrée de 16 ?",
       answers: ["2", "4", "8", "16"],
       correct: 1,
@@ -119,6 +127,14 @@ const questionsByTheme = {
       correct: 0,
       timeLimit: 10,
       difficulty: "facile"
+    },
+    {
+      text: "À quel langage de développement web appartient ce logo ?",
+      image: "/assets/images/logo-html-5-768.png", 
+      answers: ["HTML", "CSS", "JavaScript", "Python"],
+      correct: 0,
+      timeLimit: 15,
+      answerUser: null,
     },
     {
       text: "Quel langage est utilisé pour styliser les pages web ?",
@@ -189,6 +205,8 @@ const badges = [
 const introScreen = getElement("#intro-screen");
 const questionScreen = getElement("#question-screen");
 const resultScreen = getElement("#result-screen");
+
+const questionImage = getElement("#question-image"); 
 const badgesScreen = getElement("#badges-screen");
 
 const bestScoreValue = getElement("#best-score-value");
@@ -257,11 +275,19 @@ function showQuestion() {
   // Mise à jour de l'indicateur de difficulté pour chaque question
   updateDifficultyIndicator(q.difficulty);
 
+  // Affichage de l'image
+  if (q.image) {
+      questionImage.src = q.image;
+      questionImage.style.display = "block"; // Rendre l'image visible
+  } else {
+      questionImage.style.display = "none"; // Masquer l'image si absente
+  }
+
   answersDiv.innerHTML = "";
 
   q.answers.forEach((answer, index) => {
-    const btn = createAnswerButton(answer, () => selectAnswer(index, btn));
-    answersDiv.appendChild(btn);
+      const btn = createAnswerButton(answer, () => selectAnswer(index, btn));
+      answersDiv.appendChild(btn);
   });
 
   nextBtn.classList.add("hidden");
@@ -269,9 +295,9 @@ function showQuestion() {
   timeLeftSpan.textContent = q.timeLimit;
   q.startTime = Date.now();
   timerId = startTimer(
-    q.timeLimit,
-    (timeLeft) => setText(timeLeftSpan, timeLeft),
-    () => {
+      q.timeLimit,
+      (timeLeft) => setText(timeLeftSpan, timeLeft),
+      () => {
       const timeTaken = (Date.now() - q.startTime) / 1000;
       questionStats.push({ 
         question: q.text, 
@@ -279,11 +305,12 @@ function showQuestion() {
         timeTaken: timeTaken 
       });
       totalTime += timeTaken;
-      lockAnswers(answersDiv);
-      nextBtn.classList.remove("hidden");
-    }
+          lockAnswers(answersDiv);
+          nextBtn.classList.remove("hidden");
+      }
   );
 }
+
 
 function updateDifficultyIndicator(difficulty) {
   difficultyIndicator.textContent = `Difficulté : ${difficulty}`;
