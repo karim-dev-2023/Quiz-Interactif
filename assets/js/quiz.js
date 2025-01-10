@@ -23,37 +23,43 @@ const questionsByTheme = {
       text: "Quelle est la capitale de la France ?",
       answers: ["Marseille", "Paris", "Lyon", "Bordeaux"],
       correct: 1,
-      timeLimit: 10
+      timeLimit: 10,
+      answerUser: null,
     },
     {
       text: "Qui a peint la Joconde ?",
       answers: ["Van Gogh", "Picasso", "Léonard de Vinci", "Monet"],
       correct: 2,
-      timeLimit: 10
+      timeLimit: 10,
+      answerUser: null,
     },
     {
       text: "Quel est le plus grand océan du monde ?",
       answers: ["Atlantique", "Indien", "Arctique", "Pacifique"],
       correct: 3,
-      timeLimit: 10
+      timeLimit: 10,
+      answerUser: null,
     },
     {
       text: "En quelle année la Première Guerre mondiale a-t-elle commencé ?",
       answers: ["1914", "1912", "1916", "1918"],
       correct: 0,
-      timeLimit: 10
+      timeLimit: 10,
+      answerUser: null,
     },
     {
       text: "Quel est l'élément chimique dont le symbole est 'Au' ?",
       answers: ["Argent", "Aluminium", "Or", "Cuivre"],
       correct: 2,
-      timeLimit: 10
+      timeLimit: 10,
+      answerUser: null,
     },
     {
       text: "Qui a écrit 'Le Petit Prince' ?",
       answers: ["Victor Hugo", "Antoine de Saint-Exupéry", "Émile Zola", "Albert Camus"],
       correct: 1,
-      timeLimit: 10
+      timeLimit: 10,
+      answerUser: null,
     }
   ],
   maths: [
@@ -61,37 +67,43 @@ const questionsByTheme = {
       text: "Combien font 2 + 3 ?",
       answers: ["3", "4", "5", "1"],
       correct: 2,
-      timeLimit: 5
+      timeLimit: 5,
+      answerUser: null,
     },
     {
       text: "Quelle est la racine carrée de 16 ?",
       answers: ["2", "4", "8", "16"],
       correct: 1,
-      timeLimit: 8
+      timeLimit: 8,
+      answerUser: null,
     },
     {
       text: "Combien font 7 × 8 ?",
       answers: ["54", "55", "56", "58"],
       correct: 2,
-      timeLimit: 7
+      timeLimit: 7,
+      answerUser: null,
     },
     {
       text: "Quel est le résultat de 15 ÷ 3 ?",
       answers: ["3", "4", "5", "6"],
       correct: 2,
-      timeLimit: 6
+      timeLimit: 6,
+      answerUser: null,
     },
     {
       text: "Quel est le carré de 9 ?",
       answers: ["18", "27", "36", "81"],
       correct: 3,
-      timeLimit: 8
+      timeLimit: 8,
+      answerUser: null,
     },
     {
       text: "Combien font 12 - 5 ?",
       answers: ["5", "6", "7", "8"],
       correct: 2,
-      timeLimit: 5
+      timeLimit: 5,
+      answerUser: null,
     }
   ],
   webdev: [
