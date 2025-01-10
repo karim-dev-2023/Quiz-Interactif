@@ -99,3 +99,10 @@ button:hover {
   border: 1px solid black;
   padding: 10px;
 }
+
+#question-image {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Permet de gérer le centrage */
+  margin: 20px auto; /* Centre horizontalement */
+}

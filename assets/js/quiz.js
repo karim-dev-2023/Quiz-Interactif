@@ -27,6 +27,14 @@ const questionsByTheme = {
       answerUser: null,
     },
     {
+      text: "Quel monument est-ce ?",
+      image: "/assets/images/th.png", 
+      answers: ["La Tour Eiffel", "Le Louvre", "Notre-Dame", "L'Arc de Triomphe"],
+      correct: 0,
+      timeLimit: 15,
+      answerUser: null,
+    },
+    {
       text: "Qui a peint la Joconde ?",
       answers: ["Van Gogh", "Picasso", "Léonard de Vinci", "Monet"],
       correct: 2,
@@ -68,6 +76,14 @@ const questionsByTheme = {
       answers: ["3", "4", "5", "1"],
       correct: 2,
       timeLimit: 5,
+      answerUser: null,
+    },
+    {
+      text: "Qu'est-ce que c'est ?",
+      image: "/assets/images/2-22716_mathematics-clipart-calculus-math-pi-symbol-png-download.png", 
+      answers: ["Symbole infini", "Le signe Pi", "Alpha", "Oméga"],
+      correct: 1,
+      timeLimit: 10,
       answerUser: null,
     },
     {
@@ -117,6 +133,14 @@ const questionsByTheme = {
       ],
       correct: 0,
       timeLimit: 15
+    },
+    {
+      text: "À quel langage de développement web appartient ce logo ?",
+      image: "/assets/images/logo-html-5-768.png", 
+      answers: ["HTML", "CSS", "JavaScript", "Python"],
+      correct: 0,
+      timeLimit: 15,
+      answerUser: null,
     },
     {
       text: "Quel langage est utilisé pour styliser les pages web ?",
@@ -173,6 +197,8 @@ const introScreen = getElement("#intro-screen");
 const questionScreen = getElement("#question-screen");
 const resultScreen = getElement("#result-screen");
 
+const questionImage = getElement("#question-image"); 
+
 const bestScoreValue = getElement("#best-score-value");
 const bestScoreEnd = getElement("#best-score-end");
 
@@ -222,24 +248,33 @@ function showQuestion() {
   setText(questionText, q.text);
   setText(currentQuestionIndexSpan, currentQuestionIndex + 1);
 
+  // Affichage de l'image
+  if (q.image) {
+      questionImage.src = q.image;
+      questionImage.style.display = "block"; // Rendre l'image visible
+  } else {
+      questionImage.style.display = "none"; // Masquer l'image si absente
+  }
+
   answersDiv.innerHTML = "";
   q.answers.forEach((answer, index) => {
-    const btn = createAnswerButton(answer, () => selectAnswer(index, btn));
-    answersDiv.appendChild(btn);
+      const btn = createAnswerButton(answer, () => selectAnswer(index, btn));
+      answersDiv.appendChild(btn);
   });
 
   nextBtn.classList.add("hidden");
 
   timeLeftSpan.textContent = q.timeLimit;
   timerId = startTimer(
-    q.timeLimit,
-    (timeLeft) => setText(timeLeftSpan, timeLeft),
-    () => {
-      lockAnswers(answersDiv);
-      nextBtn.classList.remove("hidden");
-    }
+      q.timeLimit,
+      (timeLeft) => setText(timeLeftSpan, timeLeft),
+      () => {
+          lockAnswers(answersDiv);
+          nextBtn.classList.remove("hidden");
+      }
   );
 }
+
 
 function selectAnswer(index, btn) {
   clearInterval(timerId);
