@@ -89,3 +89,26 @@ button:hover {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
+#difficulty-indicator {
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.difficulty.facile {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.difficulty.moyen {
+  background-color: #fff9c4;
+  color: #f9a825;
+}
+
+.difficulty.difficile {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
