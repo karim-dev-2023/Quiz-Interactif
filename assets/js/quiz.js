@@ -13,6 +13,7 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
   startTimer,
+  shuffleArray,
 } from "./utils.js";
 
 console.log("Quiz JS loaded...");
@@ -177,10 +178,18 @@ let questions = [];
 let questionStats = [];
 let totalTime = 0;
 
+// Badges
+const badges = [
+  { name: "Novice", criteria: 1, unlocked: false },
+  { name: "Expert", criteria: 5, unlocked: false },
+  { name: "Maître", criteria: 10, unlocked: false },
+];
+
 // DOM Elements
 const introScreen = getElement("#intro-screen");
 const questionScreen = getElement("#question-screen");
 const resultScreen = getElement("#result-screen");
+const badgesScreen = getElement("#badges-screen");
 
 const bestScoreValue = getElement("#best-score-value");
 const bestScoreEnd = getElement("#best-score-end");
@@ -249,6 +258,7 @@ function showQuestion() {
   updateDifficultyIndicator(q.difficulty);
 
   answersDiv.innerHTML = "";
+
   q.answers.forEach((answer, index) => {
     const btn = createAnswerButton(answer, () => selectAnswer(index, btn));
     answersDiv.appendChild(btn);
@@ -307,13 +317,16 @@ function selectAnswer(index, btn) {
   q.answerUser = index;  
 
   markCorrectAnswer(answersDiv, q.correct);
+  
   lockAnswers(answersDiv);
+  
   nextBtn.classList.remove("hidden");
 }
 
 // Fonction pour passer à la question suivante
 function nextQuestion() {
   currentQuestionIndex++;
+
   if (currentQuestionIndex < questions.length) {
     showQuestion();
   } else {
@@ -323,18 +336,67 @@ function nextQuestion() {
 
 // Fonction pour terminer le quiz
 function endQuiz() {
-  hideElement(questionScreen);
-  showElement(resultScreen);
+  
+hideElement(questionScreen);
+  
+showElement(resultScreen);
+  
+updateScoreDisplay(scoreText, score, questions.length);
 
-  updateScoreDisplay(scoreText, score, questions.length);
-
-  if (score > bestScore) {
+if (score > bestScore) {
     bestScore = score;
     saveToLocalStorage("bestScore", bestScore);
-  }
+}
 
   showRecapAfterQuiz();
-  setText(bestScoreEnd, bestScore);
+  
+setText(bestScoreEnd, bestScore);
+
+// Vérification des badges
+checkBadges(score);
+
+// Afficher les badges
+displayBadges();
+}
+
+function checkBadges(score) {
+badges.forEach(badge => {
+if (score >= badge.criteria && !badge.unlocked) {
+badge.unlocked = true;
+}
+});
+}
+
+function displayBadges() {
+const badgesList = getElement("#badges-list");
+badgesList.innerHTML = "";
+
+badges.forEach(badge => {
+if (badge.unlocked) {
+const li = document.createElement("li");
+li.textContent = badge.name;
+badgesList.appendChild(li);
+}
+});
+showElement(badgesScreen);
+// Lancer les confettis sur toute la page
+launchConfetti();
+setTimeout(() => {
+   hideElement(badgesScreen); // Masquer les badges après un délai
+},5000);
+
+// Effacer les confettis après un certain temps
+setTimeout(() => {
+   confetti.reset();
+},6000);
+}
+
+function launchConfetti() {
+   confetti({
+       particleCount:100,
+       spread:160,
+       origin:{ y:0.6 }
+   });
 
   const encouragement = getEncouragement(score, questions.length);
   
@@ -402,8 +464,8 @@ function getEncouragement(score, totalQuestions) {
 
 // Fonction pour redémarrer le quiz
 function restartQuiz() {
-  hideElement(resultScreen);
-  showElement(introScreen);
+hideElement(resultScreen);
+showElement(introScreen);
 
   if (recapBodyTable) {
     recapBodyTable.innerHTML = "";
@@ -411,7 +473,7 @@ function restartQuiz() {
     recapTable.style.display = "none";
   }
 
-  setText(bestScoreValue, bestScore);
+setText(bestScoreValue, bestScore);
 
 }
 

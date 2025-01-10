@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Quiz Dynamique</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
-  </head>
-  <body>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
     <h1>Quiz Dynamique</h1>
 
     <!-- Bouton pour le mode sombre -->
@@ -27,11 +28,11 @@
     </button>
 
     <div id="intro-screen">
-      <p class="notice">
-        Testez vos connaissances en quelques questions chronométrées !
-      </p>
-      <p>Meilleur score : <span id="best-score-value">0</span></p>
-      <div id="theme-selection">
+        <p class="notice">
+            Testez vos connaissances en quelques questions chronométrées !
+        </p>
+        <p>Meilleur score : <span id="best-score-value">0</span></p>
+        <div id="theme-selection">
         <label for="theme-select">Choisissez un thème :</label>
         <select id="theme-select">
           <option value="general">Culture générale</option>
@@ -43,32 +44,32 @@
     </div>
 
     <div id="question-screen" style="display: none">
-      <div id="progress">
-        Question 
+        <div id="progress">
+            Question 
         <span id="current-question-index"></span> 
-        <span id="total-questions"></span>
-      </div>
+            <span id="total-questions"></span>
+        </div>
       <div id="difficulty-indicator"></div>
-      <p id="question-text"></p>
-      <div id="answers"></div>
-      <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
-      <button id="next-btn" class="hidden">Question suivante</button>
+        <p id="question-text"></p>
+        <div id="answers"></div>
+        <div id="timer-div">Temps restant : <span id="time-left">0</span>s</div>
+        <button id="next-btn" class="hidden">Question suivante</button>
     </div>
 
     <div id="result-screen" style="display: none">
-      <h2>Résultat final</h2>
+        <h2>Résultat final</h2>
       <div id="encouragement-container">
         <h3 id="encouragement-title"></h3>
         <p id="encouragement"></p>
       </div>
-      <p id="score-text"></p>
-      <p>Meilleur score : <span id="best-score-end">0</span></p>
+        <p id="score-text"></p>
+        <p>Meilleur score : <span id="best-score-end">0</span></p>
       <div id="detailed-stats">
         <h3>Statistiques détaillées</h3>
         <p>Temps moyen par question : <span id="average-time"></span> secondes</p>
         <div id="question-stats"></div>
       </div>
-      <button id="restart-btn">Recommencer</button>
+        <button id="restart-btn">Recommencer</button>
     </div>
 
     <table id="recapAfterQuiz" style="display: none"  class="tableRecap">
@@ -84,6 +85,12 @@
       </tbody>
     </table>
 
+    <!-- Section pour afficher les badges débloqués -->
+    <div id="badges-screen" style="display:none">
+        <h2>Badges Débloqués</h2>
+        <ul id="badges-list"></ul>
+    </div>
+
     <script type="module" src="../assets/js/quiz.js"></script>
-  </body>
+</body>
 </html>

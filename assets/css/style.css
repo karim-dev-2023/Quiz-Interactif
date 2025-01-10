@@ -1,4 +1,5 @@
-/* Corps */
+
+/* styles.css */
 body {
   font-family: "Segoe UI", Arial, sans-serif;
   margin: 20px;
@@ -24,17 +25,19 @@ h1 {
 /* Boutons généraux */
 button {
   margin: 10px auto;
-  padding: 10px 20px;
+  padding: 12px 25px; /* Augmenter le remplissage */
   cursor: pointer;
   background-color: #1976d2;
   color: #fff;
-  border: none;
-  border-radius: 6px;
-  transition: background-color 0.3s;
+  border-radius: 8px; /* Coins arrondis */
+  border: none; /* Pas de bordure */
+  font-size: larger; /* Augmenter la taille du texte */
+  transition: background-color .3s, transform .2s; /* Transition pour le survol */
 }
 
 button:hover {
   background-color: #1565c0;
+  transform: scale(1.05); /* Légère augmentation au survol */
 }
 
 /* Classe pour cacher un élément */
@@ -45,13 +48,14 @@ button:hover {
 /* Conteneurs principaux */
 #intro-screen,
 #question-screen,
-#result-screen {
+#result-screen,
+#badges-screen {
   max-width: 600px;
   margin: 0 auto 20px;
   background: #fff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 12px; /* Coins arrondis */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1); /* Ombre légère */
 }
 
 #theme-selection {
@@ -71,20 +75,22 @@ button:hover {
   background-color: #f5f5f5;
   color: #333;
   border-radius: 4px;
-  transition: background-color 0.3s;
+  transition: background-color .3s; /* Transition pour le survol */
 }
 
 #answers button:hover {
-  background-color: #e0e0e0;
+  background-color: #e0e0e0; /* Couleur au survol */
 }
 
 /* Bouton correct */
 .correct {
   background-color: #c8e6c9 !important; /* Vert clair */
+  background-color: #c8e6c9 !important; /* Vert clair */
 }
 
 /* Bouton incorrect */
 .wrong {
+  background-color: #ffcdd2 !important; /* Rouge clair */
   background-color: #ffcdd2 !important; /* Rouge clair */
 }
 
@@ -93,13 +99,13 @@ button:hover {
   margin-top: 10px;
   font-weight: bold;
   color: #d32f2f; /* Rouge foncé */
+  color: #d32f2f; /* Rouge foncé */
 }
 
 /* Barre de progression */
 #progress {
   font-weight: bold;
   margin-bottom: 10px;
-  color: #455a64;
 }
 
 #difficulty-indicator {
@@ -131,8 +137,216 @@ button:hover {
 }
 
 #score-text {
-  font-size: 1.2em;
+   font-size: larger; 
+   margin-bottom:10px;
+}
+
+#badges-screen {
+ display:none; 
+ position:fixed; 
+ top:50%; 
+ left:50%; 
+ transform:translate(-50%, -50%); 
+ background-color:rgba(255,255,255,0.95); 
+ border-radius:12px; 
+ box-shadow:0px4px20pxrgba(0,0,0,0.3); 
+ padding:30px; 
+ z-index:1000; 
+}
+
+#badges-list {
+ list-style-type:none; 
+ padding:0; 
+}
+
+#badges-list li {
+ background-color:#4caf50; 
+ color:#fff;
+ margin:10px0; 
+ padding:15px; 
+ border-radius:8px; 
+ font-weight:bold; 
+ text-align:center; 
+ transition:.3s ease,background-color .3s ease; 
+}
+
+#badges-list li:hover {
+ transform:scale(1.05);
+ background-color:#388e3c;
+}
+
+.modal-overlay {
+ position:absolute; 
+ top:-10%; 
+ left:-10%; 
+ width:120%; 
+ height:auto; 
+ background-color:#00000099;
+ z-index:auto;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+}
+.badge-modal {
+ background-color:#fff;
+ border-radius:12px;
+ padding:20px;
+ box-shadow:0px4px20pxrgba(0,0,0,0.2);
+ text-align:center;
+ animation:fadIn .5s;
+}
+
+/* l'apparition de la modale badge*/
+@keyframes fadeIn {
+ from { opacity :0;}
+ to { opacity :1;}
+}
+
+.tableRecap{
+  margin: auto;
+  width: 75%;
+}
+
+.tableRecap thead tr th,td{
+  border: 1px solid black;
+  padding: 10px;
+}
+
+/* Bouton pour le mode sombre */
+.dark-mode-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #f5f5f5; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.dark-mode-btn:hover {
+  transform: scale(1.1); 
+}
+
+body:not(.dark-mode) .dark-mode-btn:hover {
+  background-color: #333;
+}
+
+body.dark-mode .dark-mode-btn:hover {
+  background-color: #fff; 
+}
+
+
+body.dark-mode .dark-mode-btn {
+  background-color: #333; 
+}
+
+/* Mode sombre : apparence des éléments */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode #intro-screen,
+body.dark-mode #question-screen,
+body.dark-mode #result-screen {
+  background-color: #1e1e1e; 
+  color: #e0e0e0; 
+}
+
+body.dark-mode #dark-mode-icon svg {
+  fill: #ffda00; 
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.fade svg {
+  opacity: 1;
+}
+#difficulty-indicator {
+  padding: 5px 10px;
+  border-radius: 5px;
   margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.difficulty.facile {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.difficulty.moyen {
+  background-color: #fff9c4;
+  color: #f9a825;
+}
+
+.difficulty.difficile {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+
+#encouragement-container {
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  position: relative;
+}
+
+#encouragement-title {
+  color: #2c3e50;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+#encouragement {
+  color: #34495e;
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.emoji {
+  font-size: 3em;
+  margin: 10px 0;
+}
+
+#detailed-stats {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+#detailed-stats h3 {
+  margin-bottom: 10px;
+  color: #1976d2;
+}
+
+.question-stat {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+  text-align: left;
+}
+
+.question-stat p {
+  margin: 5px 0;
 }
 
 .tableRecap{
