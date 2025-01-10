@@ -200,6 +200,9 @@ const badges = [
   { name: "Expert", criteria: 5, unlocked: false },
   { name: "Maître", criteria: 10, unlocked: false },
 ];
+let globalTimerId = null; 
+let globalTimeLeft = 60; 
+
 
 // DOM Elements
 const introScreen = getElement("#intro-screen");
@@ -254,6 +257,7 @@ function startQuiz() {
 
   currentQuestionIndex = 0;
   score = 0;
+  globalTimeLeft = 60; // Réinitialiser le temps global
   questions = questionsByTheme[currentTheme];
 
   questionStats = [];
@@ -261,8 +265,22 @@ function startQuiz() {
 
   setText(totalQuestionsSpan, questions.length);
 
+  // Démarrer le compte à rebours global
+  setText(getElement("#global-time-left"), globalTimeLeft);
+  globalTimerId = startTimer(
+    globalTimeLeft,
+    (timeLeft) => {
+      globalTimeLeft = timeLeft; 
+      setText(getElement("#global-time-left"), timeLeft);
+    },
+    () => {
+      endQuiz();
+    }
+  );
+
   showQuestion();
 }
+
 
 // Fonction pour afficher une question
 function showQuestion() {
@@ -384,6 +402,10 @@ checkBadges(score);
 
 // Afficher les badges
 displayBadges();
+const timeUsed = 60 - globalTimeLeft; 
+  setText(getElement("#time-used"), timeUsed);
+
+  clearInterval(globalTimerId);
 }
 
 function checkBadges(score) {
@@ -502,6 +524,9 @@ showElement(introScreen);
 
 setText(bestScoreValue, bestScore);
 
+  // Arrêter le chronomètre global
+  clearInterval(globalTimerId);
+
 }
 
 function showRecapAfterQuiz() {
@@ -563,4 +588,6 @@ function toggleDarkMode() {
   const isDarkMode = body.classList.contains("dark-mode");
   saveToLocalStorage("darkMode", isDarkMode);
 }
+
+
 

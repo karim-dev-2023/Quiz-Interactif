@@ -502,3 +502,38 @@ body.dark-mode #dark-mode-icon svg {
   display: block; /* Permet de gérer le centrage */
   margin: 20px auto; /* Centre horizontalement */
 }
+
+#global-timer-div {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #0288d1; 
+}
+
+body.dark-mode #global-timer-div {
+  color: #29b6f6; 
+}
+
+/* Conteneur du timer global */
+#global-timer-container {
+  position: fixed;
+  top: 70px;
+  right: 70px;
+  text-align: center;
+  z-index: 1000;
+}
+
+#global-timer {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #d32f2f; 
+  margin-bottom: 5px;
+}
+
+#timer-icon svg {
+  display: block;
+  margin: 0 auto;
+}
+
+body.dark-mode #global-timer {
+  color: #ff6f61; 
+}
