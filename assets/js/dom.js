@@ -11,9 +11,39 @@ export const createAnswerButton = (text, onClick) => {
   return btn;
 };
 
-export const updateScoreDisplay = (scoreElement, score, total) => {
-  scoreElement.textContent = `Votre score : ${score} / ${total}`;
+export const updateScoreDisplay = (scoreElement, score, total, currentScoreText, bestScoreText) => {
+  // Mettre à jour "Votre score"
+  scoreElement.textContent = `${currentScoreText} ${score} / ${total}`;
+
+  // Mettre à jour "Meilleur score"
+  const bestScoreLabel = document.querySelector("#best-score-end");
+  if (bestScoreLabel) {
+    const bestScore = localStorage.getItem("bestScore") || 0;
+    bestScoreLabel.textContent = `${bestScoreText} ${bestScore}`;
+  }
 };
+
+
+function restartQuiz() {
+  // Réinitialiser les variables
+  currentQuestionIndex = 0;
+  score = 0;
+
+  // Cacher l'écran des résultats et afficher l'écran d'intro
+  hideElement(resultScreen);
+  showElement(introScreen);
+
+  // Mettre à jour le meilleur score avant le départ dans la langue sélectionnée
+  const lang = translations[currentLanguage];
+  const bestScoreText = document.querySelector("#best-score-text");
+  if (bestScoreText) {
+    bestScoreText.textContent = `${lang.bestScore} ${bestScore}`;
+  }
+
+  // Réinitialiser les textes et l'état de l'écran d'intro
+  setText(bestScoreValue, bestScore);
+  updateLanguageTexts();
+}
 
 export const lockAnswers = (container) => {
   const buttons = container.querySelectorAll("button");

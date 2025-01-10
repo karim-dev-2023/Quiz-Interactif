@@ -8,11 +8,25 @@
   <body>
     <h1>Quiz Dynamique</h1>
 
+    <div id="language-selector">
+      <label for="language">Langue : </label>
+      <select id="language">
+        <option value="fr" selected>Français</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="ar">العربية</option>
+        <option value="it">Italiano</option>
+        <option value="de">Deutsch</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+      </select>
+    </div>
+
     <div id="intro-screen">
       <p class="notice">
         Testez vos connaissances en quelques questions chronométrées !
       </p>
-      <p>Meilleur score : <span id="best-score-value">0</span></p>
+      <p id="best-score-text"><span id="best-score-value">0</span></p>
       <button id="start-btn">Commencer le quiz</button>
     </div>
 
@@ -30,7 +44,7 @@
     <div id="result-screen" style="display: none">
       <h2>Résultat final</h2>
       <p id="score-text"></p>
-      <p>Meilleur score : <span id="best-score-end">0</span></p>
+      <p id="best-score-end">0</p>
       <button id="restart-btn">Recommencer</button>
     </div>
 
