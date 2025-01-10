@@ -11,6 +11,7 @@ body {
 /* Titre principal */
 h1 {
   margin-bottom: 25px;
+  color: #2c3e50;
 }
 
 /* Message de bienvenue */
@@ -53,6 +54,15 @@ button:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+#theme-selection {
+  margin-bottom: 20px;
+}
+
+#theme-select {
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
 /* Boutons des réponses */
 #answers button {
   display: block;
@@ -90,6 +100,28 @@ button:hover {
   font-weight: bold;
   margin-bottom: 10px;
   color: #455a64;
+}
+
+#difficulty-indicator {
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.difficulty.facile {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.difficulty.moyen {
+  background-color: #fff9c4;
+  color: #f9a825;
+}
+
+.difficulty.difficile {
+  background-color: #ffcdd2;
+  color: #c62828;
 }
 
 /* Écran de résultats */
@@ -196,3 +228,56 @@ body.dark-mode #dark-mode-icon svg {
   color: #c62828;
 }
 
+
+#encouragement-container {
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  position: relative;
+}
+
+#encouragement-title {
+  color: #2c3e50;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+#encouragement {
+  color: #34495e;
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.emoji {
+  font-size: 3em;
+  margin: 10px 0;
+}
+
+#detailed-stats {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+#detailed-stats h3 {
+  margin-bottom: 10px;
+  color: #1976d2;
+}
+
+.question-stat {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+  text-align: left;
+}
+
+.question-stat p {
+  margin: 5px 0;
+}

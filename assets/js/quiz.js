@@ -13,7 +13,6 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
   startTimer,
-  shuffleArray, // Import de la fonction shuffleArray
 } from "./utils.js";
 
 console.log("Quiz JS loaded...");
@@ -175,6 +174,9 @@ let timerId = null;
 let currentTheme = "general";
 let questions = [];
 
+let questionStats = [];
+let totalTime = 0;
+
 // DOM Elements
 const introScreen = getElement("#intro-screen");
 const questionScreen = getElement("#question-screen");
@@ -203,6 +205,7 @@ const darkModeIcon = getElement("#dark-mode-icon");
 const recapTable = getElement("#recapAfterQuiz");
 const recapBodyTable = getElement("#bodyRecapAfterQuiz");
 
+
 const difficultyIndicator = getElement("#difficulty-indicator");
 
 // Init
@@ -210,6 +213,7 @@ startBtn.addEventListener("click", startQuiz);
 nextBtn.addEventListener("click", nextQuestion);
 restartBtn.addEventListener("click", restartQuiz);
 darkModeToggle.addEventListener("click", toggleDarkMode);
+
 themeSelect.addEventListener("change", (e) => {
   currentTheme = e.target.value;
 });
@@ -224,6 +228,9 @@ function startQuiz() {
   currentQuestionIndex = 0;
   score = 0;
   questions = questionsByTheme[currentTheme];
+
+  questionStats = [];
+  totalTime = 0;
 
   setText(totalQuestionsSpan, questions.length);
 
@@ -250,10 +257,18 @@ function showQuestion() {
   nextBtn.classList.add("hidden");
 
   timeLeftSpan.textContent = q.timeLimit;
+  q.startTime = Date.now();
   timerId = startTimer(
     q.timeLimit,
     (timeLeft) => setText(timeLeftSpan, timeLeft),
     () => {
+      const timeTaken = (Date.now() - q.startTime) / 1000;
+      questionStats.push({ 
+        question: q.text, 
+        correct: false, 
+        timeTaken: timeTaken 
+      });
+      totalTime += timeTaken;
       lockAnswers(answersDiv);
       nextBtn.classList.remove("hidden");
     }
@@ -271,9 +286,19 @@ function updateDifficultyIndicator(difficulty) {
 // Fonction pour sélectionner une réponse
 function selectAnswer(index, btn) {
   clearInterval(timerId);
+  const timeTaken = (Date.now() - questions[currentQuestionIndex].startTime) / 1000;
 
   const q = questions[currentQuestionIndex];
-  if (index === q.correct) {
+  const isCorrect = index === q.correct;
+
+  questionStats.push({ 
+    question: q.text, 
+    correct: isCorrect, 
+    timeTaken: timeTaken 
+  });
+  totalTime += timeTaken;
+
+  if (isCorrect) {
     score++;
     btn.classList.add("correct");
   } else {
@@ -310,6 +335,69 @@ function endQuiz() {
 
   showRecapAfterQuiz();
   setText(bestScoreEnd, bestScore);
+
+  const encouragement = getEncouragement(score, questions.length);
+  
+  // Modification ici
+  const emojiContainer = getElement("#encouragement-container");
+  emojiContainer.innerHTML = `
+    <h3 id="encouragement-title">${encouragement.title}</h3>
+    <p id="encouragement">${encouragement.message}</p>
+    <div class="emoji">${encouragement.emoji}</div>
+  `;
+
+  displayDetailedStats();
+}
+
+function displayDetailedStats() {
+  const averageTime = totalTime / questions.length;
+  setText(getElement("#average-time"), averageTime.toFixed(2));
+
+  const statsContainer = getElement("#question-stats");
+  statsContainer.innerHTML = "";
+
+  questionStats.forEach((stat, index) => {
+    const statElement = document.createElement("div");
+    statElement.classList.add("question-stat");
+    statElement.innerHTML = `
+      <p>Question ${index + 1}: ${stat.correct ? "Correcte" : "Incorrecte"}</p>
+      <p>Temps: ${stat.timeTaken.toFixed(2)} secondes</p>
+    `;
+    statsContainer.appendChild(statElement);
+  });
+}
+
+function getEncouragement(score, totalQuestions) {
+  const percentage = (score / totalQuestions) * 100;
+  const encouragementData = {
+    title: "",
+    message: "",
+    emoji: ""
+  };
+
+  if (percentage === 100) {
+    encouragementData.title = "Score Parfait 🏆";
+    encouragementData.message = "Félicitations ! Vous avez répondu parfaitement à toutes les questions. Votre expertise est impressionnante !";
+    encouragementData.emoji = "🌟🎉";
+  } else if (percentage >= 80) {
+    encouragementData.title = "Excellent Travail ! 👏";
+    encouragementData.message = "Vous avez démontré une compréhension remarquable du sujet. Continuez sur cette voie !";
+    encouragementData.emoji = "🚀";
+  } else if (percentage >= 60) {
+    encouragementData.title = "Bon Résultat 👍";
+    encouragementData.message = "Vous avez bien performé. Avec un peu plus de pratique, vous deviendrez un expert !";
+    encouragementData.emoji = "📈";
+  } else if (percentage >= 40) {
+    encouragementData.title = "Pas Mal ! 🤔";
+    encouragementData.message = "Vous avez fait des progrès. Concentrez-vous sur vos points faibles pour vous améliorer.";
+    encouragementData.emoji = "💡";
+  } else {
+    encouragementData.title = "Continuez à Apprendre ! 💪";
+    encouragementData.message = "Chaque erreur est une opportunité d'apprentissage. Ne vous découragez pas et persévérez !";
+    encouragementData.emoji = "🌱";
+  }
+
+  return encouragementData;
 }
 
 // Fonction pour redémarrer le quiz
@@ -324,6 +412,7 @@ function restartQuiz() {
   }
 
   setText(bestScoreValue, bestScore);
+
 }
 
 function showRecapAfterQuiz() {
@@ -385,3 +474,4 @@ function toggleDarkMode() {
   const isDarkMode = body.classList.contains("dark-mode");
   saveToLocalStorage("darkMode", isDarkMode);
 }
+
