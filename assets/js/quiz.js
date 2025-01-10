@@ -12,7 +12,7 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
   startTimer,
-  shuffleArray, // Import de la fonction shuffleArray
+  shuffleArray,
 } from "./utils.js";
 
 console.log("Quiz JS loaded...");
@@ -37,10 +37,18 @@ let score = 0;
 let bestScore = loadFromLocalStorage("bestScore", 0);
 let timerId = null;
 
+// Badges
+const badges = [
+  { name: "Novice", criteria: 1, unlocked: false },
+  { name: "Expert", criteria: 5, unlocked: false },
+  { name: "Maître", criteria: 10, unlocked: false },
+];
+
 // DOM Elements
 const introScreen = getElement("#intro-screen");
 const questionScreen = getElement("#question-screen");
 const resultScreen = getElement("#result-screen");
+const badgesScreen = getElement("#badges-screen");
 
 const bestScoreValue = getElement("#best-score-value");
 const bestScoreEnd = getElement("#best-score-end");
@@ -87,6 +95,7 @@ function showQuestion() {
   setText(currentQuestionIndexSpan, currentQuestionIndex + 1);
 
   answersDiv.innerHTML = "";
+
   q.answers.forEach((answer, index) => {
     const btn = createAnswerButton(answer, () => selectAnswer(index, btn));
     answersDiv.appendChild(btn);
@@ -95,6 +104,7 @@ function showQuestion() {
   nextBtn.classList.add("hidden");
 
   timeLeftSpan.textContent = q.timeLimit;
+
   timerId = startTimer(
     q.timeLimit,
     (timeLeft) => setText(timeLeftSpan, timeLeft),
@@ -109,6 +119,7 @@ function selectAnswer(index, btn) {
   clearInterval(timerId);
 
   const q = questions[currentQuestionIndex];
+
   if (index === q.correct) {
     score++;
     btn.classList.add("correct");
@@ -117,12 +128,15 @@ function selectAnswer(index, btn) {
   }
 
   markCorrectAnswer(answersDiv, q.correct);
+  
   lockAnswers(answersDiv);
+  
   nextBtn.classList.remove("hidden");
 }
 
 function nextQuestion() {
   currentQuestionIndex++;
+
   if (currentQuestionIndex < questions.length) {
     showQuestion();
   } else {
@@ -131,21 +145,70 @@ function nextQuestion() {
 }
 
 function endQuiz() {
-  hideElement(questionScreen);
-  showElement(resultScreen);
+  
+hideElement(questionScreen);
+  
+showElement(resultScreen);
+  
+updateScoreDisplay(scoreText, score, questions.length);
 
-  updateScoreDisplay(scoreText, score, questions.length);
-
-  if (score > bestScore) {
+if (score > bestScore) {
     bestScore = score;
     saveToLocalStorage("bestScore", bestScore);
-  }
-  setText(bestScoreEnd, bestScore);
+}
+  
+setText(bestScoreEnd, bestScore);
+
+// Vérification des badges
+checkBadges(score);
+
+// Afficher les badges
+displayBadges();
+}
+
+function checkBadges(score) {
+badges.forEach(badge => {
+if (score >= badge.criteria && !badge.unlocked) {
+badge.unlocked = true;
+}
+});
+}
+
+function displayBadges() {
+const badgesList = getElement("#badges-list");
+badgesList.innerHTML = "";
+
+badges.forEach(badge => {
+if (badge.unlocked) {
+const li = document.createElement("li");
+li.textContent = badge.name;
+badgesList.appendChild(li);
+}
+});
+showElement(badgesScreen);
+// Lancer les confettis sur toute la page
+launchConfetti();
+setTimeout(() => {
+   hideElement(badgesScreen); // Masquer les badges après un délai
+},5000);
+
+// Effacer les confettis après un certain temps
+setTimeout(() => {
+   confetti.reset();
+},6000);
+}
+
+function launchConfetti() {
+   confetti({
+       particleCount:100,
+       spread:160,
+       origin:{ y:0.6 }
+   });
 }
 
 function restartQuiz() {
-  hideElement(resultScreen);
-  showElement(introScreen);
+hideElement(resultScreen);
+showElement(introScreen);
 
-  setText(bestScoreValue, bestScore);
+setText(bestScoreValue, bestScore);
 }
