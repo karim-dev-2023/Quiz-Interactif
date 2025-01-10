@@ -90,3 +90,42 @@ button:hover {
   margin-bottom: 10px;
 }
 
+#language-selector {
+  margin: 20px auto;
+  text-align: center;
+}
+
+#language-selector label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 10px;
+  color: #333;
+}
+
+#language {
+  font-size: 1rem;
+  padding: 8px 12px;
+  border: 2px solid #1976d2; 
+  border-radius: 6px; 
+  background-color: #fff; 
+  color: #333; 
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+}
+
+#language:hover {
+  border-color: #1565c0; 
+  background-color: #e3f2fd; 
+}
+
+#language:focus {
+  border-color: #004ba0; 
+  box-shadow: 0 0 5px rgba(0, 75, 160, 0.5); 
+}
+
+#language:disabled {
+  background-color: #f5f5f5;
+  color: #aaa; 
+  cursor: not-allowed;
+}
