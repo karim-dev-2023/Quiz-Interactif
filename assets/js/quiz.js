@@ -1,3 +1,4 @@
+// quiz.js
 import {
   getElement,
   showElement,
@@ -12,7 +13,6 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
   startTimer,
-  shuffleArray, // Import de la fonction shuffleArray
 } from "./utils.js";
 
 console.log("Quiz JS loaded...");
@@ -70,9 +70,6 @@ function startQuiz() {
 
   currentQuestionIndex = 0;
   score = 0;
-
-  // Mélanger les questions
-  shuffleArray(questions);
 
   setText(totalQuestionsSpan, questions.length);
 
