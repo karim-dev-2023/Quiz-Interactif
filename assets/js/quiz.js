@@ -12,7 +12,6 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
   startTimer,
-  shuffleArray, // Import de la fonction shuffleArray
 } from "./utils.js";
 
 console.log("Quiz JS loaded...");
@@ -64,15 +63,28 @@ restartBtn.addEventListener("click", restartQuiz);
 
 setText(bestScoreValue, bestScore);
 
+// Fonction pour jouer l'audio de la question
+function playAudio(questionText) {
+  const speech = new SpeechSynthesisUtterance(questionText);
+  speech.lang = 'fr-FR'; // Langue française
+  window.speechSynthesis.speak(speech);
+}
+
+// Événement pour le bouton de lecture audio
+function setupAudioButton() {
+  const playAudioBtn = getElement("#play-audio-btn");
+  playAudioBtn.addEventListener("click", () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    playAudio(currentQuestion.text);
+  });
+}
+
 function startQuiz() {
   hideElement(introScreen);
   showElement(questionScreen);
 
   currentQuestionIndex = 0;
   score = 0;
-
-  // Mélanger les questions
-  shuffleArray(questions);
 
   setText(totalQuestionsSpan, questions.length);
 
@@ -85,6 +97,9 @@ function showQuestion() {
   const q = questions[currentQuestionIndex];
   setText(questionText, q.text);
   setText(currentQuestionIndexSpan, currentQuestionIndex + 1);
+
+  // Configurer le bouton audio pour cette question
+  setupAudioButton();
 
   answersDiv.innerHTML = "";
   q.answers.forEach((answer, index) => {
@@ -140,12 +155,13 @@ function endQuiz() {
     bestScore = score;
     saveToLocalStorage("bestScore", bestScore);
   }
-  setText(bestScoreEnd, bestScore);
+  
+setText(bestScoreEnd, bestScore);
 }
 
 function restartQuiz() {
-  hideElement(resultScreen);
-  showElement(introScreen);
+hideElement(resultScreen);
+showElement(introScreen);
 
-  setText(bestScoreValue, bestScore);
+setText(bestScoreValue, bestScore);
 }
